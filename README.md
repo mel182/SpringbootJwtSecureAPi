@@ -1,2 +1,2 @@
 # SpringbootJwtSecureAPi
-This is a demo springboot project using JWT to protect the API
+This is a demo REST secure with JWT in springboot using Java  and Spring Secure
