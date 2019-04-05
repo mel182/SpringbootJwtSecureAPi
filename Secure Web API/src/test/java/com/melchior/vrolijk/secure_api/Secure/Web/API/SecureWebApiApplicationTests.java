@@ -1,16 +1,20 @@
 package com.melchior.vrolijk.secure_api.Secure.Web.API;
 
-import org.junit.Test;
+import com.melchior.vrolijk.secure_api.Secure.Web.API.confguration.SwaggerConfigurationTest;
+import com.melchior.vrolijk.secure_api.Secure.Web.API.confguration.TomCatRedirectConfigurationTest;
 import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(SpringRunner.class)
+@RunWith(Suite.class)
+@Suite.SuiteClasses({
+		TomCatRedirectConfigurationTest.class,
+		SwaggerConfigurationTest.class
+})
 @SpringBootTest
-public class SecureWebApiApplicationTests {
-
-	@Test
-	public void contextLoads() {
-	}
+@EnableAutoConfiguration
+public class SecureWebApiApplicationTests
+{
 
 }
