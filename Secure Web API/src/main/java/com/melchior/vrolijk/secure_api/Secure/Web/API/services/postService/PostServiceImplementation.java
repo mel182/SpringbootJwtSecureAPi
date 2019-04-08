@@ -34,11 +34,11 @@ public class PostServiceImplementation implements PostService
 //        return post.get();
 
         Post post = new Post();
-        post.setCategory(Category.SPORT);
+//        post.setCategory(Category.SPORT);
         post.setDescription("This is a test post");
         post.setTitle("Test");
-        post.setPublishedDate(System.currentTimeMillis());
-        post.setLastUpdate(System.currentTimeMillis());
+//        post.setPublishedDate(System.currentTimeMillis());
+//        post.setLastUpdate(System.currentTimeMillis());
         return post;
     }
 
@@ -48,9 +48,9 @@ public class PostServiceImplementation implements PostService
 
         PostEntity postEntity = new PostEntity();
         postEntity.setTitle(post.getTitle());
-        postEntity.setLastUpdate(post.getLastUpdate());
+//        postEntity.setLastUpdate(post.getLastUpdate());
         postEntity.setDescription(post.getDescription());
-        postEntity.setCategory(post.getCategory());
+//        postEntity.setCategory(post.getCategory());
         postEntity.setCreator(123456);
 
 
