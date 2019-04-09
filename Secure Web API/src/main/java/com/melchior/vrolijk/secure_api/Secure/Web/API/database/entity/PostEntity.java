@@ -18,11 +18,10 @@ import javax.persistence.*;
  */
 public class PostEntity {
 
-
     //region Model properties
     @ApiModelProperty(readOnly = true)
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private long id;
 
     @ApiModelProperty(readOnly = true)
