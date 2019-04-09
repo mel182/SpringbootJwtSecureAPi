@@ -1,5 +1,6 @@
 package com.melchior.vrolijk.secure_api.Secure.Web.API.security;
 
+import com.melchior.vrolijk.secure_api.Secure.Web.API.services.authenticatedUserService.AuthenticatedUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,8 +14,8 @@ import org.springframework.stereotype.Component;
 @Component
 class JwtTokenAutenticationRetrieval {
 
-    //@Autowired
-    private UserDetailsService authorizedUserDetailsService;
+    @Autowired
+    private AuthenticatedUserService authorizedUserDetailsService;
 
     Authentication getAuthentication(String token)
     {
@@ -22,17 +23,4 @@ class JwtTokenAutenticationRetrieval {
 
         return new UsernamePasswordAuthenticationToken(userDetails,"",userDetails.getAuthorities());
     }
-
-//    @Bean
-//    public void createUserDetailsInstance()
-//    {
-//        this.authorizedUserDetailsService = new UserDetailsService() {
-//            @Override
-//            public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-//                return null;
-//            }
-//        }
-//    }
-
-
 }
