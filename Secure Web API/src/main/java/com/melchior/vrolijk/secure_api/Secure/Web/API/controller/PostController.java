@@ -58,6 +58,7 @@ public class PostController {
                     responseHeaders = {}),
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 401, message = "Unauthorized since you are not authorized user"),
+            @ApiResponse(code = 403, message = "Forbidden since you are not authorized to perform such action"),
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @GetMapping("/{id}")
@@ -88,6 +89,7 @@ public class PostController {
             }),
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 401, message = "Unauthorized since you are not authorized user"),
+            @ApiResponse(code = 403, message = "Forbidden since you are not authorized to perform such action"),
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @Validated
@@ -119,6 +121,7 @@ public class PostController {
                     response = PostEntity.class, responseHeaders = {}),
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 401, message = "Unauthorized since you are not authorized user"),
+            @ApiResponse(code = 403, message = "Forbidden since you are not authorized to perform such action"),
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @Validated
@@ -150,6 +153,7 @@ public class PostController {
                     response = PostEntity.class, responseHeaders = {}),
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 401, message = "Unauthorized since you are not authorized user"),
+            @ApiResponse(code = 403, message = "Forbidden since you are not authorized to perform such action"),
             @ApiResponse(code = 500, message = "Internal Server Error")
     })
     @Validated

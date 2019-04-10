@@ -1,6 +1,5 @@
 package com.melchior.vrolijk.secure_api.Secure.Web.API.confguration;
 
-import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +17,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.Collections;
 
+import static springfox.documentation.builders.PathSelectors.regex;
+
 @Configuration
 @EnableSwagger2
 @Import(BeanValidatorPluginsConfiguration.class)
@@ -31,26 +32,8 @@ public class SwaggerConfiguration extends WebMvcConfigurationSupport {
                 .select()
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
-                .paths(Predicates.not(PathSelectors.regex("/error.*")))
+                .paths(Predicates.not(regex("/error.*")))
                 .build();
-
-        /*
-
-         .apis(RequestHandlerSelectors.any())
-        .paths(PathSelectors.any())
-        .paths(Predicates.not(PathSelectors.regex("/error.*")))
-
-
-        .apis(RequestHandlerSelectors.basePackage("com.melchior.vrolijk.secure_api.Secure.Web.API"))
-                .paths(regex("/api/v2/*"))
-                .build();
-
-
-        .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
-            .paths(PathSelectors.any())
-            .build();
-        */
-        //.apis( RequestHandlerSelectors.basePackage( "your package" ) )
     }
 
     @Override
@@ -72,6 +55,5 @@ public class SwaggerConfiguration extends WebMvcConfigurationSupport {
                 "This is the demo spring boot secure api project documentation",
                 "1.0","",contact,
                 "","www.google.com",Collections.emptyList());
-
     }
 }
