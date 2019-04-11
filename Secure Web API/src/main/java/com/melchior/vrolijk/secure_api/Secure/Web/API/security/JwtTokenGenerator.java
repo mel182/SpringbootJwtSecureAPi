@@ -16,14 +16,14 @@ public class JwtTokenGenerator {
     @Value("${security.jwt.token.expire-length:1800000}")
     private static final long VALIDITY_IN_MILLISECONDS = 1800000;
 
-    public String createToken(String username, String role)
+    public String createToken(String email, String role)
     {
         Date createdDate = new Date();
         Date validity = new Date(createdDate.getTime() + VALIDITY_IN_MILLISECONDS);
 
         return JWT
                 .create()
-                .withSubject(username)
+                .withSubject(email)
                 .withClaim("user_role",role)
                 .withIssuedAt(createdDate)
                 .withExpiresAt(validity)

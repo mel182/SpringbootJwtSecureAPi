@@ -42,6 +42,10 @@ public class UserEntity
     private boolean accountLocked;
 
     @ApiModelProperty(readOnly = true)
+    @Column(name="ACCOUNT_NON_LOCKED")
+    private String accountNonLocked;
+
+    @ApiModelProperty(readOnly = true)
     @Column(name="ACCOUNT_ENABLED")
     private boolean accountEnabled;
 
@@ -55,7 +59,7 @@ public class UserEntity
 
     @ApiModelProperty(readOnly = true)
     @Column(name="UPDATED")
-    private String updated;
+    private Long updated;
     //endregion
 
     public long getId() {
@@ -138,11 +142,19 @@ public class UserEntity
         this.created = created;
     }
 
-    public String getUpdated() {
+    public Long getUpdated() {
         return updated;
     }
 
-    public void setUpdated(String updated) {
+    public void setUpdated(Long updated) {
         this.updated = updated;
+    }
+
+    public String getAccountNonLocked() {
+        return accountNonLocked;
+    }
+
+    public void setAccountNonLocked(String accountNonLocked) {
+        this.accountNonLocked = accountNonLocked;
     }
 }
