@@ -9,9 +9,20 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import springfox.documentation.builders.AuthorizationCodeGrantBuilder;
+import springfox.documentation.builders.OAuthBuilder;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.service.*;
+import springfox.documentation.spi.service.contexts.SecurityContext;
+import springfox.documentation.swagger.web.SecurityConfiguration;
+import springfox.documentation.swagger.web.SecurityConfigurationBuilder;
+
+import java.util.Arrays;
+
+import static org.springframework.security.oauth2.provider.token.AccessTokenConverter.CLIENT_ID;
 
 @Configuration
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter
+public class ApiSecurityConfiguration extends WebSecurityConfigurerAdapter
 {
     @Autowired
     JwtTokenGenerator jwtTokenGenerator;
@@ -54,4 +65,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
                 "/webjars/**");
 
     }
+
+    /*
+    @Bean
+public ApiSecurityConfiguration security() {
+    return SecurityConfigurationBuilder.builder()
+        .clientId(CLIENT_ID)
+        .clientSecret(CLIENT_SECRET)
+        .scopeSeparator(" ")
+        .useBasicAuthenticationWithAccessCodeGrant(true)
+        .build();
+}
+    */
+
+
+
 }

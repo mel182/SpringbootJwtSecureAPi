@@ -1,5 +1,6 @@
 package com.melchior.vrolijk.secure_api.Secure.Web.API.controller;
 
+import com.melchior.vrolijk.secure_api.Secure.Web.API.controller.baseClasses.BaseSecurityControllerVerifier;
 import com.melchior.vrolijk.secure_api.Secure.Web.API.database.dbEnum.Category;
 import com.melchior.vrolijk.secure_api.Secure.Web.API.database.entity.PostEntity;
 import com.melchior.vrolijk.secure_api.Secure.Web.API.model.Post;
@@ -10,10 +11,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.melchior.vrolijk.secure_api.Secure.Web.API.security.constant.SecurityConstantValue.AUTHORIZATION_HEADER_KEY;
+
 @Api(tags = "Posts", description = "Endpoint for manipulating available post")
 @RequestMapping("/post")
 @RestController
-public class PostController {
+public class PostController extends BaseSecurityControllerVerifier {
 
     //region Get all available posts GET Api
     @GetMapping("/all")
@@ -32,7 +35,7 @@ public class PostController {
      * Get all available posts GET API
      * @return List of all available posts
      */
-    public List<PostEntity> getAllPosts()
+    public List<PostEntity> getAllPosts(@ApiParam(value = "Authorization token", required = true) @RequestHeader(AUTHORIZATION_HEADER_KEY) String authorization)
     {
         List<PostEntity> posts = new ArrayList<>();
 
@@ -68,7 +71,7 @@ public class PostController {
      * @param id This is the post ID
      * @return The corresponding post based on the ID provided
      */
-    public PostEntity getPost( @ApiParam(value = "The post ID", required = true) @PathVariable long id)
+    public PostEntity getPost(@ApiParam(value = "Authorization token", required = true) @RequestHeader(AUTHORIZATION_HEADER_KEY) String authorization, @ApiParam(value = "The post ID", required = true) @PathVariable long id)
     {
         PostEntity post = new PostEntity();
         post.setTitle("Test title");
@@ -99,7 +102,7 @@ public class PostController {
      * @return Data of the post being added to the database
      */
     @PostMapping("")
-    public PostEntity AddNewPost(@ApiParam(value = "The new post that need to be added", required = true) @RequestBody Post newPost)
+    public PostEntity AddNewPost(@ApiParam(value = "Authorization token", required = true) @RequestHeader(AUTHORIZATION_HEADER_KEY) String authorization,@ApiParam(value = "The new post that need to be added", required = true) @RequestBody Post newPost)
     {
         PostEntity post = new PostEntity();
         post.setTitle("Test title");
@@ -132,7 +135,7 @@ public class PostController {
      * @return The post instance including the updated values
      */
     @PutMapping("/update/{id}")
-    public PostEntity updatePost(@ApiParam(value = "The updated post instance", required = true) @RequestBody Post post, @ApiParam(value = "The post ID", required = true) @PathVariable long id)
+    public PostEntity updatePost(@ApiParam(value = "Creator authorization token", required = true) @RequestHeader(AUTHORIZATION_HEADER_KEY) String authorization, @ApiParam(value = "The updated post instance", required = true) @RequestBody Post post, @ApiParam(value = "The post ID", required = true) @PathVariable long id)
     {
         PostEntity post2 = new PostEntity();
         post2.setTitle("Test title");
@@ -163,7 +166,7 @@ public class PostController {
      * @return The {@link PostEntity} instance containing the post details that has been deleted
      */
     @DeleteMapping("/{id}")
-    public PostEntity removePost(@ApiParam(value = "The corresponding post ID", required = true) @PathVariable long id)
+    public PostEntity removePost(@ApiParam(value = "Creator/admin authorization token", required = true) @RequestHeader(AUTHORIZATION_HEADER_KEY) String authorization, @ApiParam(value = "The corresponding post ID", required = true) @PathVariable long id)
     {
         PostEntity postR = new PostEntity();
         postR.setTitle("Test title");
