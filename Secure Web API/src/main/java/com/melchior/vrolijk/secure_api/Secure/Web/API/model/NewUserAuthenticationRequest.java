@@ -4,17 +4,17 @@ public class NewUserAuthenticationRequest
 {
     private Long id;
 
-    private String firstName;
+    private String firstName = "";
 
-    private String lastName;
+    private String lastName = "";
 
-    private String occupation;
+    private String occupation = "";
 
-    private String email;
+    private String email = "";
 
-    private String password;
+    private String password = "";
 
-    private String role;
+    private String role = "";
 
 
     public Long getId() {

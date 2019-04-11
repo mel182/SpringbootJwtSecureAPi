@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
+import static com.melchior.vrolijk.secure_api.Secure.Web.API.security.constant.SecurityConstantValue.USER_ROLE;
+
 @Component
 public class JwtTokenGenerator {
 
@@ -24,7 +26,7 @@ public class JwtTokenGenerator {
         return JWT
                 .create()
                 .withSubject(email)
-                .withClaim("user_role",role)
+                .withClaim(USER_ROLE,role)
                 .withIssuedAt(createdDate)
                 .withExpiresAt(validity)
                 .sign(Algorithm.HMAC256(SECRET_KEY));

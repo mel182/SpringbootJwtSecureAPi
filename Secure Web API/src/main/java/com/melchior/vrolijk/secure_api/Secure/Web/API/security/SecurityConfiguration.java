@@ -28,8 +28,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        System.out.println("http request: "+http.toString());
-
         http
             .httpBasic().disable()
             .csrf().disable()
@@ -47,7 +45,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
     @Override
     public void configure(WebSecurity web) throws Exception {
 
-        web.ignoring().antMatchers("/v2/api-docs",
+        web.ignoring().antMatchers(
+                "/v2/api-docs",
                 "/configuration/ui",
                 "/swagger-resources/**",
                 "/configuration/**",

@@ -9,10 +9,12 @@ public class RequestValueVerifier
 
     public static boolean containInvalidValues(String value, boolean required)
     {
+        System.out.println("value: "+value);
         if (required && value.equals(""))
             return true;
 
-        return Arrays.stream(InvalidValues).anyMatch(value::equals);
+        System.out.println(Arrays.stream(InvalidValues).anyMatch(value::contains));
+        return Arrays.stream(InvalidValues).anyMatch(value::contains);
     }
 
 }
