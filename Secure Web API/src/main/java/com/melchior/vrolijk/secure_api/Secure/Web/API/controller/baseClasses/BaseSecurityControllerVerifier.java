@@ -29,6 +29,11 @@ public class BaseSecurityControllerVerifier
         return getUserRole(token).toString().equals(ROOT.toString());
     }
 
+    protected boolean isOwner(String token, long requestedUserID)
+    {
+        long ID = Long.parseLong(extractUserRoles(token));
+        return ID == requestedUserID;
+    }
 
     private UserRole getUserRole(String token)
     {

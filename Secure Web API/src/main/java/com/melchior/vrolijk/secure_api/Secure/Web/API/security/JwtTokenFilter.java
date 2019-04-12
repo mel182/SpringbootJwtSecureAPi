@@ -1,6 +1,5 @@
 package com.melchior.vrolijk.secure_api.Secure.Web.API.security;
 
-import org.apache.catalina.servlet4preview.GenericFilter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;

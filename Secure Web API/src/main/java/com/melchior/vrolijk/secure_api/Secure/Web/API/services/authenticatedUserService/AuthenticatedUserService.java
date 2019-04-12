@@ -1,6 +1,7 @@
 package com.melchior.vrolijk.secure_api.Secure.Web.API.services.authenticatedUserService;
 
 import com.melchior.vrolijk.secure_api.Secure.Web.API.customException.UserAlreadyExistException;
+import com.melchior.vrolijk.secure_api.Secure.Web.API.database.dbEnum.UserRole;
 import com.melchior.vrolijk.secure_api.Secure.Web.API.database.entity.UserEntity;
 import com.melchior.vrolijk.secure_api.Secure.Web.API.interfaces.DatabaseTask;
 import com.melchior.vrolijk.secure_api.Secure.Web.API.model.AuthenticatedUser;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AuthenticatedUserService implements DatabaseTask<AuthenticatedUser,NewUserAuthenticationRequest>, UserDetailsService
@@ -50,6 +52,69 @@ public class AuthenticatedUserService implements DatabaseTask<AuthenticatedUser,
         return authenticatedUser;
     }
 
+    private AuthenticatedUser getAdmin(long id)
+    {
+        List<UserEntity> userEntities = repository.findAll();
+
+        UserEntity userEntity = userEntities.stream().filter(user -> (user.getId() == id && user.getRole().equals(UserRole.ADMIN.toString())))
+                .findFirst().orElse(null);
+
+        return userEntity == null ? null : convertToAuthenticatedUser(userEntity);
+    }
+
+    private AuthenticatedUser getUser(long id)
+    {
+        Optional<UserEntity> userFound = repository.findById(id);
+        UserEntity userEntities = userFound.orElse(null);
+
+        return userEntities == null ? null : convertToAuthenticatedUser(userEntities);
+    }
+
+    public AuthenticatedUser removeUser(long id)
+    {
+        AuthenticatedUser user = getUser(id);
+
+        if (user != null)
+        {
+            repository.deleteById(id);
+            return user;
+        }
+
+        return null;
+    }
+
+    public AuthenticatedUser updateUser(NewUserAuthenticationRequest newUserData)
+    {
+        if (get(newUserData.getId()) != null)
+        {
+            UserEntity userEntity = new UserEntity();
+            userEntity.setId(newUserData.getId());
+            userEntity.setFirstName(newUserData.getFirstName());
+            userEntity.setLastName(newUserData.getLastName());
+            userEntity.setEmail(newUserData.getEmail());
+            userEntity.setOccupation(newUserData.getOccupation());
+            userEntity.setUpdated(System.currentTimeMillis());
+
+            repository.save(userEntity);
+            return getUser(newUserData.getId());
+        }
+
+        return null;
+    }
+
+    public AuthenticatedUser removeAdmin(long id)
+    {
+        AuthenticatedUser adminFound = getAdmin(id);
+
+        if (adminFound != null)
+        {
+            repository.deleteById(adminFound.getId());
+            return adminFound;
+        }
+
+        return null;
+    }
+
     @Override
     public List<AuthenticatedUser> getAll()
     {
@@ -57,8 +122,38 @@ public class AuthenticatedUserService implements DatabaseTask<AuthenticatedUser,
 
         List<AuthenticatedUser> authenticatedUserList = new ArrayList<>();
 
-        userEntities.stream().forEach((userEntity -> {
+        userEntities.forEach((userEntity -> {
              authenticatedUserList.add(convertToAuthenticatedUser(userEntity));
+        }));
+
+        return authenticatedUserList;
+    }
+
+    public List<AuthenticatedUser> getAllAdmins()
+    {
+        List<UserEntity> userEntities = repository.findAll();
+
+        List<AuthenticatedUser> authenticatedUserList = new ArrayList<>();
+
+        userEntities.forEach((userEntity ->
+        {
+            if (userEntity.getRole().equals(UserRole.ADMIN.toString()))
+                authenticatedUserList.add(convertToAuthenticatedUser(userEntity));
+        }));
+
+        return authenticatedUserList;
+    }
+
+    public List<AuthenticatedUser> getAllUsers()
+    {
+        List<AuthenticatedUser> authenticatedUserList = new ArrayList<>();
+
+        List<UserEntity> userEntities = repository.findAll();
+
+        userEntities.forEach((userEntity ->
+        {
+            if (userEntity.getRole().equals(UserRole.USER.toString()))
+                authenticatedUserList.add(convertToAuthenticatedUser(userEntity));
         }));
 
         return authenticatedUserList;
@@ -83,7 +178,7 @@ public class AuthenticatedUserService implements DatabaseTask<AuthenticatedUser,
         {
             if (userEntity.getPassword().equals(passwordProvidedHashed))
             {
-                String token = jwtTokenGenerator.createToken(userEntity.getEmail(),userEntity.getRole());
+                String token = jwtTokenGenerator.createToken(userEntity);
                 AuthenticatedUser authenticatedUser = convertToAuthenticatedUser(userEntity);
                 authenticatedUser.setSessionToken(token);
 

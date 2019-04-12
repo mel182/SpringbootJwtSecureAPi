@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.melchior.vrolijk.secure_api.Secure.Web.API.security.constant.SecurityConstantValue;
 
 import static com.melchior.vrolijk.secure_api.Secure.Web.API.security.constant.SecurityConstantValue.AUTHORIZATION_PREFIX;
+import static com.melchior.vrolijk.secure_api.Secure.Web.API.security.constant.SecurityConstantValue.USER_ID;
 import static com.melchior.vrolijk.secure_api.Secure.Web.API.security.constant.SecurityConstantValue.USER_ROLE;
 
 public class JwtTokenDataRetrieval
@@ -16,6 +17,11 @@ public class JwtTokenDataRetrieval
     public static String getRole(String token)
     {
         return JWT.decode(refineToken(token)).getClaim(USER_ROLE).asString();
+    }
+
+    public static String extractUserID(String token)
+    {
+        return JWT.decode(refineToken(token)).getClaim(USER_ID).asString();
     }
 
     private static String refineToken(String raw_token)
