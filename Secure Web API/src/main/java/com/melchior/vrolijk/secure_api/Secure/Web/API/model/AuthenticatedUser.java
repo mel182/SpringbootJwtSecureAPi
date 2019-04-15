@@ -1,22 +1,12 @@
 package com.melchior.vrolijk.secure_api.Secure.Web.API.model;
 
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import org.hibernate.validator.internal.util.annotation.AnnotationDescriptor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.toList;
-
+@ApiModel
 public class AuthenticatedUser
 {
+    @ApiModelProperty(readOnly = true)
     private Long id;
 
     private String firstName;
@@ -27,6 +17,7 @@ public class AuthenticatedUser
 
     private String email;
 
+    @ApiModelProperty(readOnly = true)
     private String sessionToken;
 
     public Long getId() {

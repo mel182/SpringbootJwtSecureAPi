@@ -45,7 +45,7 @@ public class ApiSecurityConfiguration extends WebSecurityConfigurerAdapter
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests()
                 .antMatchers("/auth/login").permitAll()
-                .antMatchers("/auth/user").permitAll()
+                .antMatchers("/user/create").permitAll()
                 .antMatchers("/api/v2/*").permitAll()
                 .antMatchers(HttpMethod.GET,"/post/all").permitAll()
                 .anyRequest().authenticated()

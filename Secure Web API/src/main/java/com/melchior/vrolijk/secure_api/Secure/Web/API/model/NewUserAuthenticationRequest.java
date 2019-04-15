@@ -1,7 +1,12 @@
 package com.melchior.vrolijk.secure_api.Secure.Web.API.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel
 public class NewUserAuthenticationRequest
 {
+    @ApiModelProperty(readOnly = true)
     private Long id;
 
     private String firstName = "";
@@ -10,10 +15,13 @@ public class NewUserAuthenticationRequest
 
     private String occupation = "";
 
+    @ApiModelProperty(required = true)
     private String email = "";
 
+    @ApiModelProperty(required = true)
     private String password = "";
 
+    @ApiModelProperty(readOnly = true)
     private String role = "";
 
 

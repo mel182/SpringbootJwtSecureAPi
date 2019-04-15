@@ -20,17 +20,23 @@ public class JwtTokenGenerator {
     @Value("${security.jwt.token.expire-length:1800000}")
     private static final long VALIDITY_IN_MILLISECONDS = 1800000;
 
-    public String createToken(UserEntity userEntity)
+    public static String createToken(UserEntity userEntity)
     {
         Date createdDate = new Date();
         Date validity = new Date(createdDate.getTime() + VALIDITY_IN_MILLISECONDS);
 
         System.out.println("Role: "+userEntity.getRole());
+        System.out.println("User ID: "+userEntity.getId());
+
+        //long l = 12345L;
+        String str = Long.toString(userEntity.getId());
+        System.out.println("User ID string: "+str);
+
         return JWT
                 .create()
                 .withSubject(userEntity.getEmail())
-                .withClaim(USER_ROLE,userEntity.getRole().toString())
-                .withClaim(USER_ID,userEntity.getId())
+                .withClaim(USER_ROLE,userEntity.getRole())
+                .withClaim(USER_ID,Long.toString(userEntity.getId()))
                 .withIssuedAt(createdDate)
                 .withExpiresAt(validity)
                 .sign(Algorithm.HMAC256(SECRET_KEY));

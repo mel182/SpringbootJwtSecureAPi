@@ -21,15 +21,30 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * This is the authentication user service which handles all task related to authenticated users.
+ * It implement {@link DatabaseTask} and {@link UserDetailsService}.
+ *
+ * @author Melchior Vrolijk
+ */
 @Service
 public class AuthenticatedUserService implements DatabaseTask<AuthenticatedUser,NewUserAuthenticationRequest>, UserDetailsService
 {
+    //region Local instances
     @Autowired
     AuthenticatedUserRepository repository;
 
     @Autowired
     JwtTokenGenerator jwtTokenGenerator;
+    //endregion
 
+    //region Save new authenticated user to database
+    /**
+     * Save authenticated user to database
+     * @param newUser The {@link NewUserAuthenticationRequest} instance
+     * @return The new {@link AuthenticatedUser}
+     * @throws UserAlreadyExistException Throws an {@link UserAlreadyExistException} will be throw if the user already exist in the database.
+     */
     @Override
     public AuthenticatedUser save(NewUserAuthenticationRequest newUser) throws UserAlreadyExistException
     {
@@ -38,8 +53,14 @@ public class AuthenticatedUserService implements DatabaseTask<AuthenticatedUser,
 
         return saveToDB(newUser);
     }
+    //endregion
 
-
+    //region Get an authenticated user based on User ID
+    /**
+     * Get an authenticated user based on the user ID
+     * @param id The user ID
+     * @return The corresponding {@link AuthenticatedUser}
+     */
     @Override
     public AuthenticatedUser get(long id) {
 
@@ -51,7 +72,14 @@ public class AuthenticatedUserService implements DatabaseTask<AuthenticatedUser,
 
         return authenticatedUser;
     }
+    //endregion
 
+    //region Get admin based on admin user ID provided
+    /**
+     * Get admin based on the admin user ID provided
+     * @param id The admin user ID
+     * @return The corresponding admin based on the user ID provided
+     */
     private AuthenticatedUser getAdmin(long id)
     {
         List<UserEntity> userEntities = repository.findAll();
@@ -61,7 +89,14 @@ public class AuthenticatedUserService implements DatabaseTask<AuthenticatedUser,
 
         return userEntity == null ? null : convertToAuthenticatedUser(userEntity);
     }
+    //endregion
 
+    //region Get user based on the user ID provided
+    /**
+     * Get user based on user ID
+     * @param id The user ID
+     * @return The corresponding user based on the ID provided or {@link java.lang.ref.ReferenceQueue.Null} if user is not found
+     */
     private AuthenticatedUser getUser(long id)
     {
         Optional<UserEntity> userFound = repository.findById(id);
@@ -69,7 +104,14 @@ public class AuthenticatedUserService implements DatabaseTask<AuthenticatedUser,
 
         return userEntities == null ? null : convertToAuthenticatedUser(userEntities);
     }
+    //endregion
 
+    //region Remove user based on the UserID
+    /**
+     * Remove user based on the user ID provided
+     * @param id The user ID
+     * @return Details if the user that has been removed
+     */
     public AuthenticatedUser removeUser(long id)
     {
         AuthenticatedUser user = getUser(id);
@@ -82,7 +124,14 @@ public class AuthenticatedUserService implements DatabaseTask<AuthenticatedUser,
 
         return null;
     }
+    //endregion
 
+    //region Update user based on the new user data provided
+    /**
+     * Update user based on the user data provided
+     * @param newUserData The updated data
+     * @return The updated user data or null if task failed
+     */
     public AuthenticatedUser updateUser(NewUserAuthenticationRequest newUserData)
     {
         if (get(newUserData.getId()) != null)
@@ -101,7 +150,14 @@ public class AuthenticatedUserService implements DatabaseTask<AuthenticatedUser,
 
         return null;
     }
+    //endregion
 
+    //region Remove admin based on the admin user ID
+    /**
+     * Remove admin based on the admin user ID provided
+     * @param id The admin user ID
+     * @return The admin details that has been removed
+     */
     public AuthenticatedUser removeAdmin(long id)
     {
         AuthenticatedUser adminFound = getAdmin(id);
@@ -114,7 +170,13 @@ public class AuthenticatedUserService implements DatabaseTask<AuthenticatedUser,
 
         return null;
     }
+    //endregion
 
+    //region Get all users
+    /**
+     * Get all user of the database
+     * @return The list of authenticated admin/user
+     */
     @Override
     public List<AuthenticatedUser> getAll()
     {
@@ -128,7 +190,13 @@ public class AuthenticatedUserService implements DatabaseTask<AuthenticatedUser,
 
         return authenticatedUserList;
     }
+    //endregion
 
+    //region Get all admins
+    /**
+     * Get all admins
+     * @return The list of admins
+     */
     public List<AuthenticatedUser> getAllAdmins()
     {
         List<UserEntity> userEntities = repository.findAll();
@@ -143,7 +211,13 @@ public class AuthenticatedUserService implements DatabaseTask<AuthenticatedUser,
 
         return authenticatedUserList;
     }
+    //endregion
 
+    //region Get all users NOT ADMIN
+    /**
+     * Get all authenticated users Not ADMINS
+     * @return The list of authenticated users
+     */
     public List<AuthenticatedUser> getAllUsers()
     {
         List<AuthenticatedUser> authenticatedUserList = new ArrayList<>();
@@ -152,19 +226,36 @@ public class AuthenticatedUserService implements DatabaseTask<AuthenticatedUser,
 
         userEntities.forEach((userEntity ->
         {
-            if (userEntity.getRole().equals(UserRole.USER.toString()))
-                authenticatedUserList.add(convertToAuthenticatedUser(userEntity));
+            if (userEntity != null)
+            {
+                if (userEntity.getRole().equals(UserRole.USER.toString()))
+                    authenticatedUserList.add(convertToAuthenticatedUser(userEntity));
+            }
         }));
 
         return authenticatedUserList;
     }
+    //endregion
 
+    //region Get user based on e-mail address provided
+    /**
+     * Get user based on the email provided
+     * @param email The user email address
+     * @return The corresponding user
+     */
     public AuthenticatedUser getUser(String email)
     {
         return getAll().stream().filter(authenticatedUser -> authenticatedUser.getEmail().equals(email))
                 .findFirst().orElse(null);
     }
+    //endregion
 
+    //region Login
+    /**
+     * Authenticated based on the username (e-mail) and password provided
+     * @param authenticationRequest The {@link AuthenticationRequest} containing the login credentials
+     * @return The user details or {@link javax.validation.constraints.Null} in case it failed
+     */
     public AuthenticatedUser login(AuthenticationRequest authenticationRequest)
     {
         String passwordProvidedHashed = Hashing.hash(authenticationRequest.getPassword());
@@ -188,8 +279,14 @@ public class AuthenticatedUserService implements DatabaseTask<AuthenticatedUser,
 
         return null;
     }
+    //endregion
 
-
+    //region Delete an user based on the id provided
+    /**
+     * Delete an authenticated user based on the user ID provided
+     * @param id The user ID
+     * @return The authenticated user details
+     */
     @Override
     public AuthenticatedUser delete(long id)
     {
@@ -206,19 +303,39 @@ public class AuthenticatedUserService implements DatabaseTask<AuthenticatedUser,
 
         return null;
     }
+    //endregion
 
+    //region Check if user exist
+    /**
+     * Determine if a user already exist in database
+     * @param email The user email address
+     * @return 'True' if user already exist or 'False' if user does not exist
+     */
     private boolean userExist(String email)
     {
         return repository.findByEmail(email).isPresent();
     }
+    //endregion
 
+    //region Save data to datbase
+    /**
+     * Save data to database
+     * @param newUser The user data
+     * @return The user details
+     */
     private AuthenticatedUser saveToDB(NewUserAuthenticationRequest newUser)
     {
         UserEntity userEntity = convertToUserEntity(newUser);
         return convertToAuthenticatedUser(repository.save(userEntity));
     }
+    //endregion
 
-
+    //region Convert new user authenticated request to user entity
+    /**
+     * Convert {@link NewUserAuthenticationRequest} to a {@link UserEntity} instance
+     * @param newUser The {@link NewUserAuthenticationRequest} instance
+     * @return The {@link UserEntity}
+     */
     private UserEntity convertToUserEntity(NewUserAuthenticationRequest newUser)
     {
         UserEntity userEntity = new UserEntity();
@@ -233,7 +350,14 @@ public class AuthenticatedUserService implements DatabaseTask<AuthenticatedUser,
 
         return userEntity;
     }
+    //endregion
 
+    //region Convert entity user to authenticated user
+    /**
+     * Convert {@link UserEntity} to {@link AuthenticatedUser}
+     * @param userEntity The user entity
+     * @return The {@link AuthenticatedUser}
+     */
     private AuthenticatedUser convertToAuthenticatedUser(UserEntity userEntity)
     {
         AuthenticatedUser authenticatedUser = new AuthenticatedUser();
@@ -245,7 +369,15 @@ public class AuthenticatedUserService implements DatabaseTask<AuthenticatedUser,
 
         return authenticatedUser;
     }
+    //endregion
 
+    //region Load user by user name (email)
+    /**
+     * Load user by user name (email)
+     * @param email The user e-mail
+     * @return The {@link UserDetails}'instance
+     * @throws UsernameNotFoundException Throw if email is not found in the database
+     */
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException
     {
@@ -261,4 +393,5 @@ public class AuthenticatedUserService implements DatabaseTask<AuthenticatedUser,
 
         return null;
     }
+    //endregion
 }
