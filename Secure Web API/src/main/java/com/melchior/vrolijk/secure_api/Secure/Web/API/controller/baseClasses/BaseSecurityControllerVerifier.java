@@ -17,56 +17,122 @@ import static com.melchior.vrolijk.secure_api.Secure.Web.API.database.dbEnum.Use
 import static com.melchior.vrolijk.secure_api.Secure.Web.API.database.dbEnum.UserRole.ROOT;
 import static com.melchior.vrolijk.secure_api.Secure.Web.API.database.dbEnum.UserRole.USER;
 
+/**
+ * This is the base controller security base class
+ *
+ * @author Melchior Vrolijk
+ */
 public class BaseSecurityControllerVerifier
 {
-
+    //region Determine if user has a admin role
+    /**
+     * Determine if the user has the admin role based on the raw JWT token provided
+     * @param token The raw JWT token
+     * @return 'True' if user is admin and 'False' if does not have an admin role
+     */
     protected boolean isAdmin(String token)
     {
         return getUserRole(token).toString().equals(ADMIN.toString());
     }
+    //endregion
 
+    //region Determine if an user is authorized
+    /**
+     * Determine if the user is authorized based on the JWT token provided
+     * @param token The raw JWT token
+     * @return 'True' if user is authorized and 'false' if user is unauthorized
+     */
     protected boolean isAuthorizedUser(String token)
     {
         return getUserRole(token).toString().equals(USER.toString());
     }
+    //endregion
 
+    //region Determine if a user is the root user
+    /**
+     * Determine if the user is a root user
+     * @param token The raw JWT token
+     * @return 'True' if user is root-user and 'False' if user is not the root-user
+     */
     protected boolean isRootUser(String token)
     {
         return getUserRole(token).toString().equals(ROOT.toString());
     }
+    //endregion
 
+    //region Determine if the user is account owner
+    /**
+     * Determine if JWT corresponds to the account owner
+     * @param token The raw JWT token
+     * @param requestedUserID The requested user ID
+     * @return 'True' if user is the account owner and 'false' if it is not account owner
+     */
     protected boolean isOwner(String token, long requestedUserID)
     {
         long ID = Long.parseLong(extractUserID(token));
         return ID == requestedUserID;
     }
+    //endregion
 
+    //region Get user role of the raw JWT
+    /**
+     * Get user role based based on the JWT token provided
+     * @param token The raw JWT token
+     * @return The user role extracted from the JWT token
+     */
     private UserRole getUserRole(String token)
     {
         String extractedRole = extractUserRoles(token);
         return getRoles().stream().filter(availableRole -> availableRole.toString().equals(extractedRole))
                 .findFirst().orElse(UserRole.UNAUTHORIZED);
     }
+    //endregion
 
+    //region Get user role of the raw JWT
+    /**
+     * Get all valid available user roles
+     * @return The list of valid available roles
+     */
     private List<UserRole> getRoles()
     {
         return new ArrayList<>(EnumSet.allOf(UserRole.class));
     }
+    //endregion
 
+    //region Extract user roles of the JWT
+    /**
+     * Extract user
+     * @param token The raw JWT token
+     * @return The extracted user role of the JWT token
+     */
     private String extractUserRoles(String token)
     {
         return JwtTokenDataRetrieval.getRole(token);
     }
+    //endregion
 
+    //region Extract user ID of the raw JWT
+    /**
+     * Extract user ID of the raw JWT user ID
+     * @param token The raw JWT token
+     * @return The extracted user ID of the JWT token
+     */
     private String extractUserID(String token)
     {
         return JwtTokenDataRetrieval.extractUserID(token);
     }
+    //endregion
 
+    //region Get default unauthorized response entity
+    /**
+     * Get the default unauthorized {@link ResponseEntity}
+     * @return The default unauthorized response
+     */
     protected ResponseEntity getUnAuthorizedResponse()
     {
         return new ResponseEntity<>("Not authorized to perform such action", HttpStatus.UNAUTHORIZED);
     }
+    //endregion
 
     //region Check if new user data contain valid username and password
     /**
@@ -119,6 +185,12 @@ public class BaseSecurityControllerVerifier
     }
     //endregion
 
+    //region Determine if request data contain invalid data
+    /**
+     * Determine if request data contains invalid data
+     * @param newUserData The new user request data
+     * @return 'True' if it contain valid data and 'False' if not
+     */
     protected boolean containInValidUser(NewUserAuthenticationRequest newUserData)
     {
         List<String> dataList = new ArrayList<>();
@@ -132,4 +204,5 @@ public class BaseSecurityControllerVerifier
                 .stream()
                 .anyMatch(data -> RequestValueVerifier.containInvalidValues(data,true));
     }
+    //endregion
 }

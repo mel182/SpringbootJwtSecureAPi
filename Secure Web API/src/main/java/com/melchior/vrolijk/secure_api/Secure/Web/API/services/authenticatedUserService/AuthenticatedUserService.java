@@ -21,6 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.melchior.vrolijk.secure_api.Secure.Web.API.converter.Converter.convertToAuthenticatedUser;
+import static com.melchior.vrolijk.secure_api.Secure.Web.API.converter.Converter.convertToUserEntity;
+
 /**
  * This is the authentication user service which handles all task related to authenticated users.
  * It implement {@link DatabaseTask} and {@link UserDetailsService}.
@@ -37,6 +40,12 @@ public class AuthenticatedUserService implements DatabaseTask<AuthenticatedUser,
     @Autowired
     JwtTokenGenerator jwtTokenGenerator;
     //endregion
+
+
+    public void clearAll()
+    {
+        this.repository.deleteAll();
+    }
 
     //region Save new authenticated user to database
     /**
@@ -326,50 +335,11 @@ public class AuthenticatedUserService implements DatabaseTask<AuthenticatedUser,
     private AuthenticatedUser saveToDB(NewUserAuthenticationRequest newUser)
     {
         UserEntity userEntity = convertToUserEntity(newUser);
-        return convertToAuthenticatedUser(repository.save(userEntity));
+        repository.save(userEntity);
+        return getUser(newUser.getEmail());
     }
     //endregion
 
-    //region Convert new user authenticated request to user entity
-    /**
-     * Convert {@link NewUserAuthenticationRequest} to a {@link UserEntity} instance
-     * @param newUser The {@link NewUserAuthenticationRequest} instance
-     * @return The {@link UserEntity}
-     */
-    private UserEntity convertToUserEntity(NewUserAuthenticationRequest newUser)
-    {
-        UserEntity userEntity = new UserEntity();
-        userEntity.setFirstName(newUser.getFirstName());
-        userEntity.setLastName(newUser.getLastName());
-        userEntity.setEmail(newUser.getEmail());
-        userEntity.setOccupation(newUser.getOccupation());
-        userEntity.setPassword(Hashing.hash(newUser.getPassword()));
-        userEntity.setCreated(System.currentTimeMillis());
-        userEntity.setRole(newUser.getRole());
-        userEntity.setUpdated(System.currentTimeMillis());
-
-        return userEntity;
-    }
-    //endregion
-
-    //region Convert entity user to authenticated user
-    /**
-     * Convert {@link UserEntity} to {@link AuthenticatedUser}
-     * @param userEntity The user entity
-     * @return The {@link AuthenticatedUser}
-     */
-    private AuthenticatedUser convertToAuthenticatedUser(UserEntity userEntity)
-    {
-        AuthenticatedUser authenticatedUser = new AuthenticatedUser();
-        authenticatedUser.setId(userEntity.getId());
-        authenticatedUser.setFirstName(userEntity.getFirstName());
-        authenticatedUser.setLastName(userEntity.getLastName());
-        authenticatedUser.setEmail(userEntity.getEmail());
-        authenticatedUser.setOccupation(userEntity.getOccupation());
-
-        return authenticatedUser;
-    }
-    //endregion
 
     //region Load user by user name (email)
     /**

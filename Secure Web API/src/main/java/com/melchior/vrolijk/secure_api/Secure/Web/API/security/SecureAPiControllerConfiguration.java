@@ -9,33 +9,40 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import springfox.documentation.builders.AuthorizationCodeGrantBuilder;
-import springfox.documentation.builders.OAuthBuilder;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.service.*;
-import springfox.documentation.spi.service.contexts.SecurityContext;
-import springfox.documentation.swagger.web.SecurityConfiguration;
-import springfox.documentation.swagger.web.SecurityConfigurationBuilder;
 
-import java.util.Arrays;
-
-import static org.springframework.security.oauth2.provider.token.AccessTokenConverter.CLIENT_ID;
-
+/**
+ * This is the API Security configuration class
+ *
+ * @author Melchior Vrolijk
+ */
 @Configuration
-public class ApiSecurityConfiguration extends WebSecurityConfigurerAdapter
+public class SecureAPiControllerConfiguration extends WebSecurityConfigurerAdapter
 {
+    //region Autowired instances
     @Autowired
     JwtTokenGenerator jwtTokenGenerator;
 
     @Autowired
     JwtTokenAutenticationRetrieval jwtTokenAutenticationRetrieval;
+    //endregion
 
+    //region Get the authentication manager bean
+    /**
+     * The authentication manager bean
+     * @return The {@link AuthenticationManager} instance
+     * @throws Exception Throws in case something went wrong in the process
+     */
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+    //endregion
 
+    //region WebSecurityConfigurerAdapter configure(HttpSecurity)
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
@@ -52,7 +59,12 @@ public class ApiSecurityConfiguration extends WebSecurityConfigurerAdapter
                 .and()
                 .apply(new JwtConfigurer(jwtTokenGenerator,jwtTokenAutenticationRetrieval));
     }
+    //endregion
 
+    //region WebSecurityConfigurerAdapter configure(WebSecurity)
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void configure(WebSecurity web) throws Exception {
 
@@ -65,19 +77,5 @@ public class ApiSecurityConfiguration extends WebSecurityConfigurerAdapter
                 "/webjars/**");
 
     }
-
-    /*
-    @Bean
-public ApiSecurityConfiguration security() {
-    return SecurityConfigurationBuilder.builder()
-        .clientId(CLIENT_ID)
-        .clientSecret(CLIENT_SECRET)
-        .scopeSeparator(" ")
-        .useBasicAuthenticationWithAccessCodeGrant(true)
-        .build();
-}
-    */
-
-
-
+    //endregion
 }

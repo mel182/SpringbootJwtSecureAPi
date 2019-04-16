@@ -26,18 +26,5 @@ public class SecureWebApiApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SecureWebApiApplication.class, args);
-
-//		UserEntity userEntity = new UserEntity();
-//		userEntity.setRole("USER");
-//		userEntity.setId(2);
-//
-//
-//		String test = JwtTokenGenerator.createToken(userEntity);
-//
-//		System.out.println("Token: "+test);
-//
-//		System.out.println("User ID: "+JwtTokenDataRetrieval.extractUserID(test));
-//		System.out.println("User role: "+JwtTokenDataRetrieval.getRole(test));
 	}
-
 }

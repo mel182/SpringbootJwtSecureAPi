@@ -70,22 +70,6 @@ public class SwaggerConfiguration extends WebMvcConfigurationSupport {
                 .build();
     }
 
-//    private SecurityScheme securityScheme() {
-//
-//
-//        GrantType grantType = new AuthorizationCodeGrantBuilder()
-//                .tokenEndpoint(new TokenEndpoint("In Header", "JWT"))
-//                .tokenRequestEndpoint(
-//                        new TokenRequestEndpoint("JWT token (session token)", CLIENT_ID, CLIENT_ID))
-//                .build();
-//
-//
-//        SecurityScheme oauth = new OAuthBuilder().name("spring_oauth")
-//                .grantTypes(Arrays.asList(grantType))
-//                .build();
-//        return oauth;
-//    }
-
     private AuthorizationScope[] scopes() {
         AuthorizationScope[] scopes = {
                 new AuthorizationScope("read", "for read operations"),
