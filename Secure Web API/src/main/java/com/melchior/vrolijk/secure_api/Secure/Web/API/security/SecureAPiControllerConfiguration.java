@@ -51,6 +51,7 @@ public class SecureAPiControllerConfiguration extends WebSecurityConfigurerAdapt
             .csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests()
+                .antMatchers("/**").hasIpAddress("192.168.1.103")
                 .antMatchers("/auth/login").permitAll()
                 .antMatchers("/user/create").permitAll()
                 .antMatchers("/api/v2/*").permitAll()

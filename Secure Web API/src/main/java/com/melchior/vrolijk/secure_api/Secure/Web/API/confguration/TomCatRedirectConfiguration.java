@@ -29,6 +29,9 @@ public class TomCatRedirectConfiguration
         };
 
         tomcatServer.addAdditionalTomcatConnectors(initiateHttpConnector());
+
+
+        //System.setProperty("javax.net.ssl.trustStore","C:\\Users\\mvrolijk\\Documents\\GitHub\\SpringbootJWTSecureAPI\\Secure Web API");
         return tomcatServer;
     }
 

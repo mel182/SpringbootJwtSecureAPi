@@ -25,13 +25,6 @@ public class JwtTokenGenerator {
         Date createdDate = new Date();
         Date validity = new Date(createdDate.getTime() + VALIDITY_IN_MILLISECONDS);
 
-        System.out.println("Role: "+userEntity.getRole());
-        System.out.println("User ID: "+userEntity.getId());
-
-        //long l = 12345L;
-        String str = Long.toString(userEntity.getId());
-        System.out.println("User ID string: "+str);
-
         return JWT
                 .create()
                 .withSubject(userEntity.getEmail())
@@ -41,10 +34,4 @@ public class JwtTokenGenerator {
                 .withExpiresAt(validity)
                 .sign(Algorithm.HMAC256(SECRET_KEY));
     }
-
-
-
-
-
-
 }

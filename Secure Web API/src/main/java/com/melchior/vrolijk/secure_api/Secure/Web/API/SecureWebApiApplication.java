@@ -25,6 +25,9 @@ import java.util.Random;
 public class SecureWebApiApplication {
 
 	public static void main(String[] args) {
+
+
+
 		SpringApplication.run(SecureWebApiApplication.class, args);
 	}
 }

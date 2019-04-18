@@ -37,7 +37,6 @@ public class Converter
      */
     public static AuthenticatedUser convertToAuthenticatedUser(UserEntity userEntity)
     {
-        System.out.println("User entity: "+userEntity);
         AuthenticatedUser authenticatedUser = new AuthenticatedUser();
         authenticatedUser.setId(userEntity.getId());
         authenticatedUser.setFirstName(userEntity.getFirstName());

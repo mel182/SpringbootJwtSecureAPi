@@ -6,8 +6,8 @@ import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class TomCatRedirectConfigurationTest {
-
+public class TomCatRedirectConfigurationTest
+{
     //region Necessary instances
     private TomCatRedirectConfiguration tomCatRedirectConfiguration;
     //endregion
