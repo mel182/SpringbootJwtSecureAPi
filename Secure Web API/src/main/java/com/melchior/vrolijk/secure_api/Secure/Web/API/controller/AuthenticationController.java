@@ -32,7 +32,7 @@ public class AuthenticationController extends BaseSecurityControllerVerifier
 
     @ApiResponses(value = {
             @ApiResponse(code=200, message = "The corresponding authenticated user details",
-                    response = PostEntity.class, responseHeaders = {
+                    response = AuthenticatedUser.class, responseHeaders = {
             }),
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 401, message = "Unauthorized since you are not authorized user"),

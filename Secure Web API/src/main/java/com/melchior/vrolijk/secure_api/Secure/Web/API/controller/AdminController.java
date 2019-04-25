@@ -5,6 +5,7 @@ import com.melchior.vrolijk.secure_api.Secure.Web.API.customException.UserAlread
 import com.melchior.vrolijk.secure_api.Secure.Web.API.database.dbEnum.UserRole;
 import com.melchior.vrolijk.secure_api.Secure.Web.API.model.AuthenticatedUser;
 import com.melchior.vrolijk.secure_api.Secure.Web.API.model.NewUserAuthenticationRequest;
+import com.melchior.vrolijk.secure_api.Secure.Web.API.model.ResponseUser;
 import com.melchior.vrolijk.secure_api.Secure.Web.API.services.authenticatedUserService.AuthenticatedUserService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class AdminController extends BaseSecurityControllerVerifier
 
     //region Get list of all admins GET API
     @ApiOperation(value = "Retrieve list of admins ",
-            response = AuthenticatedUser[].class, responseContainer = "List of registered admins",
+            response = ResponseUser[].class, responseContainer = "List of registered admins",
             notes = "This API can be ONLY perform by the root user")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "List of registered admins"),
@@ -91,7 +92,7 @@ public class AdminController extends BaseSecurityControllerVerifier
 
     //region Remove admin DELETE API
     @ApiOperation(value = "Remove admin ",
-            response = AuthenticatedUser.class, responseContainer = "Admin that has been removed details",
+            response = ResponseUser.class, responseContainer = "Admin that has been removed details",
             notes = ONLY_USED_BY_ROOT_USER)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Admin successfully removed"),
@@ -106,7 +107,7 @@ public class AdminController extends BaseSecurityControllerVerifier
     {
         if (isRootUser(authorization))
         {
-            AuthenticatedUser user = authenticatedUserService.removeAdmin(id);
+            ResponseUser user = authenticatedUserService.removeAdmin(id);
 
             if (user != null)
             {

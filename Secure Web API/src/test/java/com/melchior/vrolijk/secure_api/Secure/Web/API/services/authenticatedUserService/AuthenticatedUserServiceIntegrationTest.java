@@ -3,6 +3,7 @@ package com.melchior.vrolijk.secure_api.Secure.Web.API.services.authenticatedUse
 import com.melchior.vrolijk.secure_api.Secure.Web.API.customException.UserAlreadyExistException;
 import com.melchior.vrolijk.secure_api.Secure.Web.API.model.AuthenticatedUser;
 import com.melchior.vrolijk.secure_api.Secure.Web.API.model.NewUserAuthenticationRequest;
+import com.melchior.vrolijk.secure_api.Secure.Web.API.model.ResponseUser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,7 +45,7 @@ public class AuthenticatedUserServiceIntegrationTest
         AuthenticatedUser insertedUser = this.authenticatedUserService.save(newUserAuthenticationRequest);
         NewUserAuthenticationRequest updatedUserTestData = createNewUpdatedAuthenticationUser();
         updatedUserTestData.setId(insertedUser.getId());
-        AuthenticatedUser newUser = this.authenticatedUserService.updateUser(updatedUserTestData);
+        ResponseUser newUser = this.authenticatedUserService.updateUser(updatedUserTestData);
         assertThat(newUser.getFirstName()).isEqualTo(updatedUserTestData.getFirstName());
         assertThat(this.removeUser(newUser.getId())).isNotEqualTo(null);
     }
@@ -66,7 +67,7 @@ public class AuthenticatedUserServiceIntegrationTest
         return this.authenticatedUserService.save(newUserAuthenticationRequest);
     }
 
-    private AuthenticatedUser removeUser(long ID) throws UserAlreadyExistException
+    private ResponseUser removeUser(long ID) throws UserAlreadyExistException
     {
         return this.authenticatedUserService.removeUser(ID);
     }

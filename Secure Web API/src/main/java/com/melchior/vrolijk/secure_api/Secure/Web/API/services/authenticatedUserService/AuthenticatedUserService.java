@@ -4,10 +4,7 @@ import com.melchior.vrolijk.secure_api.Secure.Web.API.customException.UserAlread
 import com.melchior.vrolijk.secure_api.Secure.Web.API.database.dbEnum.UserRole;
 import com.melchior.vrolijk.secure_api.Secure.Web.API.database.entity.UserEntity;
 import com.melchior.vrolijk.secure_api.Secure.Web.API.interfaces.DatabaseTask;
-import com.melchior.vrolijk.secure_api.Secure.Web.API.model.AuthenticatedUser;
-import com.melchior.vrolijk.secure_api.Secure.Web.API.model.AuthenticationRequest;
-import com.melchior.vrolijk.secure_api.Secure.Web.API.model.CustomAuthenticatedUserDetail;
-import com.melchior.vrolijk.secure_api.Secure.Web.API.model.NewUserAuthenticationRequest;
+import com.melchior.vrolijk.secure_api.Secure.Web.API.model.*;
 import com.melchior.vrolijk.secure_api.Secure.Web.API.repository.AuthenticatedUserRepository;
 import com.melchior.vrolijk.secure_api.Secure.Web.API.security.JwtTokenGenerator;
 import com.melchior.vrolijk.secure_api.Secure.Web.API.utilities.Hashing;
@@ -22,6 +19,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.melchior.vrolijk.secure_api.Secure.Web.API.converter.Converter.convertToAuthenticatedUser;
+import static com.melchior.vrolijk.secure_api.Secure.Web.API.converter.Converter.convertToResponseUser;
+import static com.melchior.vrolijk.secure_api.Secure.Web.API.converter.Converter.convertToResponseUser;
 import static com.melchior.vrolijk.secure_api.Secure.Web.API.converter.Converter.convertToUserEntity;
 
 /**
@@ -89,14 +88,14 @@ public class AuthenticatedUserService implements DatabaseTask<AuthenticatedUser,
      * @param id The admin user ID
      * @return The corresponding admin based on the user ID provided
      */
-    private AuthenticatedUser getAdmin(long id)
+    private ResponseUser getAdmin(long id)
     {
         List<UserEntity> userEntities = repository.findAll();
 
         UserEntity userEntity = userEntities.stream().filter(user -> (user.getId() == id && user.getRole().equals(UserRole.ADMIN.toString())))
                 .findFirst().orElse(null);
 
-        return userEntity == null ? null : convertToAuthenticatedUser(userEntity);
+        return userEntity == null ? null : convertToResponseUser(userEntity);
     }
     //endregion
 
@@ -115,15 +114,30 @@ public class AuthenticatedUserService implements DatabaseTask<AuthenticatedUser,
     }
     //endregion
 
+    //region Get user based on the user ID provided
+    /**
+     * Get {@link ResponseUser} based on user ID
+     * @param id The user ID
+     * @return The corresponding user based on the ID provided or {@link java.lang.ref.ReferenceQueue.Null} if user is not found
+     */
+    private ResponseUser getResponseUser(long id)
+    {
+        Optional<UserEntity> userFound = repository.findById(id);
+        UserEntity userEntities = userFound.orElse(null);
+
+        return userEntities == null ? null : convertToResponseUser(userEntities);
+    }
+    //endregion
+
     //region Remove user based on the UserID
     /**
      * Remove user based on the user ID provided
      * @param id The user ID
      * @return Details if the user that has been removed
      */
-    public AuthenticatedUser removeUser(long id)
+    public ResponseUser removeUser(long id)
     {
-        AuthenticatedUser user = getUser(id);
+        ResponseUser user = getResponseUser(id);
 
         if (user != null)
         {
@@ -141,7 +155,7 @@ public class AuthenticatedUserService implements DatabaseTask<AuthenticatedUser,
      * @param newUserData The updated data
      * @return The updated user data or null if task failed
      */
-    public AuthenticatedUser updateUser(NewUserAuthenticationRequest newUserData)
+    public ResponseUser updateUser(NewUserAuthenticationRequest newUserData)
     {
         if (get(newUserData.getId()) != null)
         {
@@ -154,7 +168,7 @@ public class AuthenticatedUserService implements DatabaseTask<AuthenticatedUser,
             userEntity.setUpdated(System.currentTimeMillis());
 
             repository.save(userEntity);
-            return getUser(newUserData.getId());
+            return getResponseUser(newUserData.getId());
         }
 
         return null;
@@ -167,9 +181,9 @@ public class AuthenticatedUserService implements DatabaseTask<AuthenticatedUser,
      * @param id The admin user ID
      * @return The admin details that has been removed
      */
-    public AuthenticatedUser removeAdmin(long id)
+    public ResponseUser removeAdmin(long id)
     {
-        AuthenticatedUser adminFound = getAdmin(id);
+        ResponseUser adminFound = getAdmin(id);
 
         if (adminFound != null)
         {
@@ -206,16 +220,16 @@ public class AuthenticatedUserService implements DatabaseTask<AuthenticatedUser,
      * Get all admins
      * @return The list of admins
      */
-    public List<AuthenticatedUser> getAllAdmins()
+    public List<ResponseUser> getAllAdmins()
     {
         List<UserEntity> userEntities = repository.findAll();
 
-        List<AuthenticatedUser> authenticatedUserList = new ArrayList<>();
+        List<ResponseUser> authenticatedUserList = new ArrayList<>();
 
         userEntities.forEach((userEntity ->
         {
             if (userEntity.getRole().equals(UserRole.ADMIN.toString()))
-                authenticatedUserList.add(convertToAuthenticatedUser(userEntity));
+                authenticatedUserList.add(convertToResponseUser(userEntity));
         }));
 
         return authenticatedUserList;
@@ -227,9 +241,9 @@ public class AuthenticatedUserService implements DatabaseTask<AuthenticatedUser,
      * Get all authenticated users Not ADMINS
      * @return The list of authenticated users
      */
-    public List<AuthenticatedUser> getAllUsers()
+    public List<ResponseUser> getAllUsers()
     {
-        List<AuthenticatedUser> authenticatedUserList = new ArrayList<>();
+        List<ResponseUser> authenticatedUserList = new ArrayList<>();
 
         List<UserEntity> userEntities = repository.findAll();
 
@@ -238,7 +252,7 @@ public class AuthenticatedUserService implements DatabaseTask<AuthenticatedUser,
             if (userEntity != null)
             {
                 if (userEntity.getRole().equals(UserRole.USER.toString()))
-                    authenticatedUserList.add(convertToAuthenticatedUser(userEntity));
+                    authenticatedUserList.add(convertToResponseUser(userEntity));
             }
         }));
 

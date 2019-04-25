@@ -6,6 +6,7 @@ import com.melchior.vrolijk.secure_api.Secure.Web.API.database.dbEnum.UserRole;
 import com.melchior.vrolijk.secure_api.Secure.Web.API.database.entity.PostEntity;
 import com.melchior.vrolijk.secure_api.Secure.Web.API.model.AuthenticatedUser;
 import com.melchior.vrolijk.secure_api.Secure.Web.API.model.NewUserAuthenticationRequest;
+import com.melchior.vrolijk.secure_api.Secure.Web.API.model.ResponseUser;
 import com.melchior.vrolijk.secure_api.Secure.Web.API.services.authenticatedUserService.AuthenticatedUserService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +31,10 @@ public class UserController extends BaseSecurityControllerVerifier
 
     //region Get list of all users GET API
     @ApiOperation(value = "Retrieve list of users ",
-            response = AuthenticatedUser[].class, responseContainer = "List of registered users",
+            response = ResponseUser[].class, responseContainer = "List of registered users",
             notes = "This API can be ONLY perform by the admin/root user")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "List of registered admins"),
+            @ApiResponse(code = 200, message = "List of registered users"),
             @ApiResponse(code = 400, message = "Bad request or either body is missing minimum required data"),
             @ApiResponse(code = 401, message = "Unauthorized since you are not authorized user"),
             @ApiResponse(code = 403, message = "Forbidden since you are not authorized to perform such action"),
@@ -57,7 +58,7 @@ public class UserController extends BaseSecurityControllerVerifier
             response = AuthenticatedUser.class, responseContainer = "The new authenticated user details")
     @ApiResponses(value = {
             @ApiResponse(code=200, message = "The new authenticated user details",
-                    response = PostEntity.class, responseHeaders = {
+                    response = ResponseUser.class, responseHeaders = {
             }),
             @ApiResponse(code = 400, message = "Bad request or either body is missing minimum required data"),
             @ApiResponse(code = 401, message = "Unauthorized since you are not authorized user"),
@@ -98,7 +99,7 @@ public class UserController extends BaseSecurityControllerVerifier
             response = AuthenticatedUser.class, responseContainer = "Updated user details")
     @ApiResponses(value = {
             @ApiResponse(code=200, message = "Updated user details",
-                    response = AuthenticatedUser.class, responseHeaders = {
+                    response = ResponseUser.class, responseHeaders = {
             }),
             @ApiResponse(code = 400, message = "Bad request or either body is missing minimum required data"),
             @ApiResponse(code = 401, message = "Unauthorized since you are not authorized user"),
@@ -116,10 +117,10 @@ public class UserController extends BaseSecurityControllerVerifier
     {
         if (isOwner(authorization,id))
         {
-            if (containInValidUser(UserData))
+            if (!containInValidUser(UserData))
             {
                 UserData.setId(id);
-                AuthenticatedUser updatedUser = authenticatedUserService.updateUser(UserData);
+                ResponseUser updatedUser = authenticatedUserService.updateUser(UserData);
                 if (updatedUser != null)
                 {
                     return ResponseEntity.ok(updatedUser);
@@ -135,7 +136,7 @@ public class UserController extends BaseSecurityControllerVerifier
 
     //region Remove user DELETE API
     @ApiOperation(value = "Remove user",
-            response = AuthenticatedUser.class, responseContainer = "User that has been removed details",
+            response = ResponseUser.class, responseContainer = "User that has been removed details",
             notes = "This API can be ONLY perform by the admin/root user")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "User successfully removed"),
@@ -150,7 +151,7 @@ public class UserController extends BaseSecurityControllerVerifier
     {
         if (isRootUser(authorization) || isAdmin(authorization))
         {
-            AuthenticatedUser user = authenticatedUserService.removeUser(id);
+            ResponseUser user = authenticatedUserService.removeUser(id);
 
             if (user != null)
             {

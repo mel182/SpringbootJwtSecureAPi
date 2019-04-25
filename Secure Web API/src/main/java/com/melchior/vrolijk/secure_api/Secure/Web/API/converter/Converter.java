@@ -3,6 +3,7 @@ package com.melchior.vrolijk.secure_api.Secure.Web.API.converter;
 import com.melchior.vrolijk.secure_api.Secure.Web.API.database.entity.UserEntity;
 import com.melchior.vrolijk.secure_api.Secure.Web.API.model.AuthenticatedUser;
 import com.melchior.vrolijk.secure_api.Secure.Web.API.model.NewUserAuthenticationRequest;
+import com.melchior.vrolijk.secure_api.Secure.Web.API.model.ResponseUser;
 import com.melchior.vrolijk.secure_api.Secure.Web.API.utilities.Hashing;
 
 public class Converter
@@ -45,6 +46,22 @@ public class Converter
         authenticatedUser.setOccupation(userEntity.getOccupation());
 
         return authenticatedUser;
+    }
+    //endregion
+
+    //region Convert entity user to response user
+    /**
+     * Convert {@link UserEntity} to {@link com.melchior.vrolijk.secure_api.Secure.Web.API.model.ResponseUser}
+     * @param userEntity The user entity
+     * @return The {@link com.melchior.vrolijk.secure_api.Secure.Web.API.model.ResponseUser}
+     */
+    public static ResponseUser convertToResponseUser(UserEntity userEntity)
+    {
+        return new ResponseUser(Long.valueOf(userEntity.getId()),
+                userEntity.getFirstName(),
+                userEntity.getLastName(),
+                userEntity.getOccupation(),
+                userEntity.getEmail());
     }
     //endregion
 }
