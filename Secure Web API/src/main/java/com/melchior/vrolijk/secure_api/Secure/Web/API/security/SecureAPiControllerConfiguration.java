@@ -1,6 +1,7 @@
 package com.melchior.vrolijk.secure_api.Secure.Web.API.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -24,6 +25,9 @@ public class SecureAPiControllerConfiguration extends WebSecurityConfigurerAdapt
 
     @Autowired
     JwtTokenAutenticationRetrieval jwtTokenAutenticationRetrieval;
+
+    @Value("${server.address}")
+    private String server_ip_address;
     //endregion
 
     //region Get the authentication manager bean
@@ -46,12 +50,13 @@ public class SecureAPiControllerConfiguration extends WebSecurityConfigurerAdapt
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
+        System.out.println("Server address: "+server_ip_address);
         http
             .httpBasic().disable()
             .csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests()
-                .antMatchers("/**").hasIpAddress("192.168.1.103")
+                .antMatchers("/**").hasIpAddress(server_ip_address)
                 .antMatchers("/auth/login").permitAll()
                 .antMatchers("/user/create").permitAll()
                 .antMatchers("/api/v2/*").permitAll()

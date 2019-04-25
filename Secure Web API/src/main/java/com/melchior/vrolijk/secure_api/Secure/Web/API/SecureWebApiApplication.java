@@ -15,9 +15,12 @@ import javax.crypto.spec.PBEKeySpec;
 import javax.mail.Address;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import javax.net.ssl.*;
 import java.math.BigInteger;
+import java.security.KeyManagementException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.cert.X509Certificate;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Random;
 
@@ -26,8 +29,12 @@ public class SecureWebApiApplication {
 
 	public static void main(String[] args) {
 
-
-
 		SpringApplication.run(SecureWebApiApplication.class, args);
+
+
+
+
+//		KeyStore.Entry newEntry = new KeyStore.TrustedCertificateEntry(someCert);
+//		ks.setEntry("someAlias", newEntry, null);
 	}
 }
