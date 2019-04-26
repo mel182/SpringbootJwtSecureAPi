@@ -6,6 +6,10 @@ import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * This is the Swagger configuration test class
+ * @author Melchior Vrolijk
+ */
 public class SwaggerConfigurationTest {
 
     //region Instances

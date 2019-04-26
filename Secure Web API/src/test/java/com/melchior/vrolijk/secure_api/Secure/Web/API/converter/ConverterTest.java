@@ -7,6 +7,10 @@ import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * This is the converter test class
+ * @author Melchior Vrolijk
+ */
 public class ConverterTest
 {
     @Test

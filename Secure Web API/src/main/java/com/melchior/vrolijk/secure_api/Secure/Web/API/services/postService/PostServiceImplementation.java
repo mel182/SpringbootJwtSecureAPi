@@ -1,15 +1,12 @@
 package com.melchior.vrolijk.secure_api.Secure.Web.API.services.postService;
 
-import com.melchior.vrolijk.secure_api.Secure.Web.API.database.dbEnum.Category;
 import com.melchior.vrolijk.secure_api.Secure.Web.API.database.entity.PostEntity;
 import com.melchior.vrolijk.secure_api.Secure.Web.API.model.Post;
 import com.melchior.vrolijk.secure_api.Secure.Web.API.repository.PostRepository;
-import javafx.geometry.Pos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PostServiceImplementation implements PostService

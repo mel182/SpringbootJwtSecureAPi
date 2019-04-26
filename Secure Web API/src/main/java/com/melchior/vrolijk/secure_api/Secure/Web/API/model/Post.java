@@ -4,6 +4,10 @@ import com.melchior.vrolijk.secure_api.Secure.Web.API.database.dbEnum.Category;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+/**
+ * This is the post model
+ * @author Melchior Vrolijk
+ */
 @ApiModel
 public class Post {
 

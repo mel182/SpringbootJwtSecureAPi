@@ -7,6 +7,10 @@ import com.melchior.vrolijk.secure_api.Secure.Web.API.model.AuthenticationReques
 import com.melchior.vrolijk.secure_api.Secure.Web.API.model.NewUserAuthenticationRequest;
 import com.melchior.vrolijk.secure_api.Secure.Web.API.utilities.Hashing;
 
+/**
+ * This is the demo object model class
+ * @author Melchior Vrolijk
+ */
 public class DemoObject
 {
     private static final String TEST_EMAIL = "test@test.com";

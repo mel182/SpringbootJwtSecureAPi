@@ -24,7 +24,7 @@ public class SecureAPiControllerConfiguration extends WebSecurityConfigurerAdapt
     JwtTokenGenerator jwtTokenGenerator;
 
     @Autowired
-    JwtTokenAutenticationRetrieval jwtTokenAutenticationRetrieval;
+    JwtTokenAuthenticationExtractor jwtTokenAutenticationRetrieval;
 
     @Value("${server.address}")
     private String server_ip_address;

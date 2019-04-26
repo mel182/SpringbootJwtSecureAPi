@@ -18,10 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.melchior.vrolijk.secure_api.Secure.Web.API.converter.Converter.convertToAuthenticatedUser;
-import static com.melchior.vrolijk.secure_api.Secure.Web.API.converter.Converter.convertToResponseUser;
-import static com.melchior.vrolijk.secure_api.Secure.Web.API.converter.Converter.convertToResponseUser;
-import static com.melchior.vrolijk.secure_api.Secure.Web.API.converter.Converter.convertToUserEntity;
+import static com.melchior.vrolijk.secure_api.Secure.Web.API.converter.Converter.*;
 
 /**
  * This is the authentication user service which handles all task related to authenticated users.
