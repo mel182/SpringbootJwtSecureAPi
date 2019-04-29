@@ -22,6 +22,7 @@ import static com.melchior.vrolijk.secure_api.Secure.Web.API.database.dbEnum.Use
  *
  * @author Melchior Vrolijk
  */
+@SuppressWarnings("ALL")
 public class BaseSecurityControllerVerifier
 {
     //region Determine if user has a admin role
@@ -42,9 +43,10 @@ public class BaseSecurityControllerVerifier
      * @param token The raw JWT token
      * @return 'True' if user is authorized and 'false' if user is unauthorized
      */
-    protected boolean isAuthorizedUser(String token)
+    protected boolean isAuthorized(String token)
     {
-        return getUserRole(token).toString().equals(USER.toString());
+        String userRole = getUserRole(token).toString();
+        return userRole.equals(USER.toString()) || userRole.equals(ADMIN.toString()) || userRole.equals(ROOT.toString());
     }
     //endregion
 
@@ -105,7 +107,7 @@ public class BaseSecurityControllerVerifier
      * @param token The raw JWT token
      * @return The extracted user role of the JWT token
      */
-    private String extractUserRoles(String token)
+    protected String extractUserRoles(String token)
     {
         return JwtTokenDataRetrieval.getRole(token);
     }
@@ -117,7 +119,7 @@ public class BaseSecurityControllerVerifier
      * @param token The raw JWT token
      * @return The extracted user ID of the JWT token
      */
-    private String extractUserID(String token)
+    protected String extractUserID(String token)
     {
         return JwtTokenDataRetrieval.extractUserID(token);
     }

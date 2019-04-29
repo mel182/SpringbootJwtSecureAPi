@@ -1,11 +1,17 @@
 package com.melchior.vrolijk.secure_api.Secure.Web.API.converter;
 
+import com.melchior.vrolijk.secure_api.Secure.Web.API.database.entity.PostEntity;
 import com.melchior.vrolijk.secure_api.Secure.Web.API.database.entity.UserEntity;
 import com.melchior.vrolijk.secure_api.Secure.Web.API.model.AuthenticatedUser;
 import com.melchior.vrolijk.secure_api.Secure.Web.API.model.NewUserAuthenticationRequest;
+import com.melchior.vrolijk.secure_api.Secure.Web.API.model.Post;
 import com.melchior.vrolijk.secure_api.Secure.Web.API.model.ResponseUser;
 import com.melchior.vrolijk.secure_api.Secure.Web.API.utilities.Hashing;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@SuppressWarnings("ALL")
 public class Converter
 {
     //region Convert new user authenticated request to user entity
@@ -62,6 +68,49 @@ public class Converter
                 userEntity.getLastName(),
                 userEntity.getOccupation(),
                 userEntity.getEmail());
+    }
+    //endregion
+
+    //region Convert post entity list to post list
+    /**
+     * Convert {@link PostEntity} list to {@link Post} list
+     * @param postEntities The post entity
+     * @return The {@link Post} list
+     */
+    public static List<Post> convertToPostList(List<PostEntity> postEntities)
+    {
+        List<Post> postList = new ArrayList<>();
+
+        postEntities.forEach((postEntity ->
+        {
+            Post post = new Post();
+            post.setId(postEntity.getId());
+            post.setTitle(postEntity.getTitle());
+            post.setDescription(postEntity.getDescription());
+            post.setCategory(postEntity.getCategory().toString());
+            post.setCreator(postEntity.getCreator());
+            postList.add(post);
+        }));
+
+        return postList;
+    }
+    //endregion
+
+    //region Convert post entity to post
+    /**
+     * Convert {@link PostEntity} to {@link Post}
+     * @param postEntities The post entity
+     * @return The {@link Post} list
+     */
+    public static Post convertToPost(PostEntity postEntity)
+    {
+        Post post = new Post();
+        post.setId(postEntity.getId());
+        post.setDescription(postEntity.getDescription());
+        post.setTitle(postEntity.getTitle());
+        post.setCategory(postEntity.getCategory().toString());
+        post.setCreator(postEntity.getCreator());
+        return post;
     }
     //endregion
 }

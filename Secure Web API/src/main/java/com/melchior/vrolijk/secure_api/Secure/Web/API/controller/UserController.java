@@ -19,6 +19,7 @@ import static com.melchior.vrolijk.secure_api.Secure.Web.API.security.constant.S
 import static com.melchior.vrolijk.secure_api.Secure.Web.API.security.constant.SecurityConstantValue.AUTHORIZATION_HEADER_KEY;
 import static com.melchior.vrolijk.secure_api.Secure.Web.API.security.constant.SecurityConstantValue.AUTHORIZATION_REQUIRED;
 
+@SuppressWarnings("ALL")
 @Api(tags = "Users", description = "Endpoints for manipulating registered user data")
 @RestController
 @RequestMapping("/user")
