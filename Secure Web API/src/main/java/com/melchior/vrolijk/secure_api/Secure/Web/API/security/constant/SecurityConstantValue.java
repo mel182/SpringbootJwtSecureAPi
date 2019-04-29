@@ -4,6 +4,7 @@ package com.melchior.vrolijk.secure_api.Secure.Web.API.security.constant;
  * This is the security constant values
  * @author Melchior Vrolijk
  */
+@SuppressWarnings("ALL")
 public class SecurityConstantValue
 {
     public static final String AUTHORIZATION_HEADER_KEY = "Authorization";

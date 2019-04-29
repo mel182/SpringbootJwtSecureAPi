@@ -6,6 +6,7 @@ import java.util.Arrays;
  * This is the request value varifier class
  * @author Melchior Vrolijk
  */
+@SuppressWarnings("ALL")
 public class RequestValueVerifier
 {
     //region Local instances
@@ -27,5 +28,4 @@ public class RequestValueVerifier
         return Arrays.stream(InvalidValues).anyMatch(value::contains);
     }
     //endregion
-
 }

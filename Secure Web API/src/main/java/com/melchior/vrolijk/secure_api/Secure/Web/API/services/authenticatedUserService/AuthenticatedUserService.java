@@ -26,6 +26,7 @@ import static com.melchior.vrolijk.secure_api.Secure.Web.API.converter.Converter
  *
  * @author Melchior Vrolijk
  */
+@SuppressWarnings("ALL")
 @Service
 public class AuthenticatedUserService implements DatabaseTask<AuthenticatedUser,NewUserAuthenticationRequest>, UserDetailsService
 {
@@ -350,7 +351,6 @@ public class AuthenticatedUserService implements DatabaseTask<AuthenticatedUser,
         return getUser(newUser.getEmail());
     }
     //endregion
-
 
     //region Load user by user name (email)
     /**
