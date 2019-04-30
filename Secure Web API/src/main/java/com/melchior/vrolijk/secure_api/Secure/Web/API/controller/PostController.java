@@ -135,15 +135,24 @@ public class PostController extends BaseSecurityControllerVerifier
     @PutMapping("/update/{id}")
     public ResponseEntity updatePost(@ApiParam(value = AUTHORIZATION_REQUIRED, required = true) @RequestHeader(AUTHORIZATION_HEADER_KEY) String authorization, @ApiParam(value = "The updated post instance", required = true) @RequestBody Post post, @ApiParam(value = "The post ID", required = true) @PathVariable long id)
     {
-        if (postService.getPostCategory(post.getCategory()) != Category.NONE)
+        Post targetPost = postService.getPost(id);
+        if (targetPost != null)
         {
-            post.setId(id);
-            Post updatedPost = postService.updatePost(post);
-            if (updatedPost != null)
+            if (isOwner(authorization,targetPost.getCreator()))
             {
-                return ResponseEntity.ok(updatedPost);
+                if (postService.getPostCategory(post.getCategory()) != Category.NONE)
+                {
+                    post.setId(id);
+                    Post updatedPost = postService.updatePost(post);
+                    if (updatedPost != null)
+                    {
+                        return ResponseEntity.ok(updatedPost);
+                    }else{
+                        return new ResponseEntity<>(new ResponseMessage("Error updating post item or it could not be found"), HttpStatus.INTERNAL_SERVER_ERROR);
+                    }
+                }
             }else{
-                return new ResponseEntity<>(new ResponseMessage("Error updating post item or it could not be found"), HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<>(new ResponseMessage("Unauthorized"), HttpStatus.UNAUTHORIZED);
             }
         }
 
@@ -153,7 +162,7 @@ public class PostController extends BaseSecurityControllerVerifier
 
     //region Remove a post DELETE API
     @ApiOperation(value = "Remove a post",
-            notes = "For removing a specific post can only be done by the root user, admins and original post creator",
+            notes = "Removing a specific post item can only be done by the root user, admins or the original creator",
             response = Post.class, responseContainer = "Details of the post that has been successfully removed")
     @ApiResponses(value = {
             @ApiResponse(code=200, message = "The corresponding post instance that has been removed.",
@@ -170,13 +179,23 @@ public class PostController extends BaseSecurityControllerVerifier
      * @return The {@link PostEntity} instance containing the post details that has been deleted
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity removePost(@ApiParam(value = AUTHORIZATION_REQUIRED, required = true) @RequestHeader(AUTHORIZATION_HEADER_KEY) String authorization, @ApiParam(value = "The corresponding post ID", required = true) @PathVariable long id)
+    public ResponseEntity removePost(@ApiParam(value = AUTHORIZATION_REQUIRED, required = true) @RequestHeader(AUTHORIZATION_HEADER_KEY) String authorization_token, @ApiParam(value = "The corresponding post ID", required = true) @PathVariable long id)
     {
-        Post removedPost = postService.removePost(id);
-        if (removedPost != null)
+        Post targetPost = postService.getPost(id);
+        if (targetPost != null)
         {
-            return ResponseEntity.ok(removedPost);
+            if (isRootUser(authorization_token) || isAdmin(authorization_token) || isOwner(authorization_token,targetPost.getCreator()))
+            {
+                Post removedPost = postService.removePost(id);
+                if (removedPost != null)
+                {
+                    return ResponseEntity.ok(removedPost);
+                }
+            }else{
+                return new ResponseEntity<>(new ResponseMessage("Unauthorized"), HttpStatus.UNAUTHORIZED);
+            }
         }
+
         return new ResponseEntity<>(new ResponseMessage("Error removing post or it could not be found"), HttpStatus.INTERNAL_SERVER_ERROR);
     }
     //endregion

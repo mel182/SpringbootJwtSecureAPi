@@ -76,6 +76,20 @@ public class BaseSecurityControllerVerifier
     }
     //endregion
 
+    //region Determine if the target post item corresponds to the original creator
+    /**
+     * Determine if JWT corresponds to the account owner
+     * @param token The raw JWT token
+     * @param requestedUserID The requested user ID
+     * @return 'True' if user is the account owner and 'false' if it is not account owner
+     */
+    protected boolean isPostCreator(String token, long creatorID)
+    {
+        long authorizationUserID = Long.parseLong(extractUserID(token));
+        return authorizationUserID == creatorID;
+    }
+    //endregion
+
     //region Get user role of the raw JWT
     /**
      * Get user role based based on the JWT token provided
