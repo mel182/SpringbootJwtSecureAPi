@@ -11,11 +11,13 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 
+
 /**
  * This is the API Security configuration class
  *
  * @author Melchior Vrolijk
  */
+@SuppressWarnings("ALL")
 @Configuration
 public class SecureAPiControllerConfiguration extends WebSecurityConfigurerAdapter
 {
@@ -60,7 +62,7 @@ public class SecureAPiControllerConfiguration extends WebSecurityConfigurerAdapt
                 .antMatchers("/auth/login").permitAll()
                 .antMatchers("/user/create").permitAll()
                 .antMatchers("/api/v2/*").permitAll()
-                .antMatchers(HttpMethod.GET,"/post/all").permitAll()
+                //.antMatchers(HttpMethod.GET,"/post/all").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .apply(new JwtConfigurer(jwtTokenGenerator,jwtTokenAutenticationRetrieval));

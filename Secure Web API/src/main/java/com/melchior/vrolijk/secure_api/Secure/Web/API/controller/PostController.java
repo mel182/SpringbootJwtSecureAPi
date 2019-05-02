@@ -100,7 +100,7 @@ public class PostController extends BaseSecurityControllerVerifier
      * @param newPost The post object
      * @return Data of the post being added to the database
      */
-    @PostMapping("")
+    @PostMapping("/create")
     public ResponseEntity AddNewPost(@ApiParam(value = AUTHORIZATION_REQUIRED, required = true) @RequestHeader(AUTHORIZATION_HEADER_KEY) String authorization,@ApiParam(value = "New post data", required = true) @RequestBody Post newPost)
     {
         if (postService.getPostCategory(newPost.getCategory()) != Category.NONE)
