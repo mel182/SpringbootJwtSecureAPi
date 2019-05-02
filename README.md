@@ -5,7 +5,7 @@ In this demo REST api project users can publish posts by providing a title, desc
 ```bash
 * Root
  * Amin
-  *User
+  * User
 ```
 Root is the root user which has the authority to create and remove post items, admins and users. Admin on the other hand is bit restricted when it comes to performing tasks. For instance an admin can remove post items and users, but cannot remove other admin users nor viewing the list of admins. Lastly, the user is the normal user which is more limited to resources and only able to perform normal tasks such as publish posts and view profile of users.<br/>
 All API's are documented using [Swagger UI](https://swagger.io/tools/swagger-ui/).<br/><br/>
@@ -14,6 +14,8 @@ Note: The front-end of this project is still in development and will be soon ava
 
 
 ## Installation
+
+Download or clone project and open it in your Java IDE. Recommended IDE for this project is [Intelli J](https://www.jetbrains.com/idea/) by JetBrains.<br/>
 
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
 
