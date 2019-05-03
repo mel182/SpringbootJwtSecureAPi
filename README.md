@@ -4,10 +4,12 @@ This is the secure API project developed in Java using the [Springboot](https://
 In this demo REST api project users can publish posts by providing a title, description and categories. Each user will be assign to a specific role which is categorized in three level, namely:
 ```bash
 * Root
- * Amin
+ * Admin
   * User
 ```
-Root is the root user which has the authority to create and remove post items, admins and users. Admin on the other hand is bit restricted when it comes to performing tasks. For instance an admin can remove post items and users, but cannot remove other admin users nor viewing the list of admins. Lastly, the user is the normal user which is more limited to resources and only able to perform normal tasks such as publish posts and view profile of users.<br/>
+**Root**: user which has the authority to create and remove post items, admins and users.<br/>
+**Admin**: Admin is a bit restricted when it comes to performing tasks. For instance an admin can remove post items and users, but cannot remove other admin users nor viewing the list of admins.<br/>
+**User**: the user is the normal user which is more limited to resources and only able to perform normal tasks such as publish posts and view profile of users.<br/>
 All API's are documented using [Swagger UI](https://swagger.io/tools/swagger-ui/).<br/><br/>
 
 Note: The front-end of this project is still in development and will be soon available.
@@ -16,27 +18,13 @@ Note: The front-end of this project is still in development and will be soon ava
 ## Installation
 
 Download or clone project and open it in your Java IDE. Recommended IDE for this project is [Intelli J](https://www.jetbrains.com/idea/) by JetBrains.<br/>
-
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
-
-```bash
-pip install foobar
-```
+Make sure you have atleast [Java 1.8 SDK](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) installed.
 
 ## Usage
 
-```python
-import foobar
-
-foobar.pluralize('word') # returns 'words'
-foobar.pluralize('goose') # returns 'geese'
-foobar.singularize('phenomena') # returns 'phenomenon'
-```
+Run this Spring boot project and in case you encounter issue with the certification just create your own self-signed certification, add it to the project and configure it in the _ _application.properties_ _ file.
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 Please make sure to update tests as appropriate.
-
-## License
-[MIT](https://choosealicense.com/licenses/mit/)
