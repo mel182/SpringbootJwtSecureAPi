@@ -26,7 +26,7 @@ Run this Spring boot project and in case you encounter issue with the certificat
 
 ## Testing
 
-The project includes some unit test cases and to conduct the integration test download and run [Secure API Integration Test](https://github.com/mel182/secure_api_integration_test) 
+The project includes some unit test cases and to conduct the integration test, please download and run [Secure API Integration Test](https://github.com/mel182/secure_api_integration_test) 
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
