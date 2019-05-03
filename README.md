@@ -1,5 +1,5 @@
 # Springboot Json Web Token (JWT) Secure API project
-This is the secure API project developed in Java using the [Springboot](https://spring.io/projects/spring-boot) framework. This project will demostrate how REST api can be secure by using JWT including some additional implementation that categorized authenticated users based on roles. All these security feature were possible with the help of the Spring Security which is a powerful and highly customizable authentication and access-control framework.
+This is the secure API project developed in Java using the [Springboot](https://spring.io/projects/spring-boot) framework. This project will demostrate Json Web Token (JWT) in action including some additional implementation that categorized users roles based on the JWT provided. All these security feature were possible with the help of the [Spring Security](https://spring.io/projects/spring-security) framework which is a powerful and highly customizable authentication and access-control framework.
 
 In this demo REST api project users can publish posts by providing a title, description and categories. Each user will be assign to a specific role which is categorized in three level, namely:
 ```bash
@@ -23,6 +23,10 @@ Make sure you have atleast [Java 1.8 SDK](https://www.oracle.com/technetwork/jav
 ## Usage
 
 Run this Spring boot project and in case you encounter issue with the certification just create your own self-signed certification, add it to the project and configure it in the _ _application.properties_ _ file.
+
+## Testing
+
+The project includes some unit test cases and for the integration test download and run [Secure API Integration Test](https://github.com/mel182/secure_api_integration_test) 
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
