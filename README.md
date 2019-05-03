@@ -22,7 +22,9 @@ Make sure you have atleast [Java 1.8 SDK](https://www.oracle.com/technetwork/jav
 
 ## Usage
 
-Run this Spring boot project and in case you encounter issue with the certification just create your own self-signed certification, add it to the project and configure it in the _ _application.properties_ _ file.
+Run this Spring boot project and in case you encounter issue with the certification just create your own self-signed certification, add it to the project and configure it in the *application.properties* file.<br/>
+Ones this project is up and running you can acccess the API documentation through *https://127.0.0.1:3000/swagger-ui.html#/User*. This is the default configuration, in case the IP address or port number is modified, please adjust the the IP Address and port number to access the API documentation.<br/>
+As an additional tool you can use [Postman](https://www.getpostman.com/) to call the API's.<br/>
 
 ## Testing
 
