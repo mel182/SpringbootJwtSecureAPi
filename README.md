@@ -27,8 +27,15 @@ Ones this project is up and running you can acccess the API documentation throug
 As an additional tool you can use [Postman](https://www.getpostman.com/) to call the API's.<br/>
 
 ## Credentials
-In this example use the following credentials for the root user: 
-
+In this example use the following credentials for the root user:<br/>
+Username:<br/>
+```bash
+admin@application.com
+```
+Password:<br/>
+```bash
+5dcad19b31396b729a484bd84b39a0b268511ba11b9359d37051c5bd02a0db7f0dd96296165b63f73acb6f0146fc5cab1ac90f050c86085c0815a88cd103e2e0
+```
 ## Testing
 
 The project includes some unit test cases and to conduct the integration test, please download and run [Secure API Integration Test](https://github.com/mel182/secure_api_integration_test) 
