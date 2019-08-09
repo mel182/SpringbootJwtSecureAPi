@@ -26,6 +26,9 @@ Run this Spring boot project and in case you encounter issue with the certificat
 Ones this project is up and running you can acccess the API documentation through *https://127.0.0.1:3000/swagger-ui.html#/User*. This is the default configuration, in case the IP address or port number is modified, please adjust the the IP Address and port number to access the API documentation.<br/>
 As an additional tool you can use [Postman](https://www.getpostman.com/) to call the API's.<br/>
 
+## Credentials
+In this example use the following credentials for the root user: 
+
 ## Testing
 
 The project includes some unit test cases and to conduct the integration test, please download and run [Secure API Integration Test](https://github.com/mel182/secure_api_integration_test) 
