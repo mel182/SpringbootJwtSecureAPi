@@ -11,6 +11,8 @@ import static com.melchior.vrolijk.secure_api.Secure.Web.API.security.constant.S
  */
 class JwtHttpRequestTokenRetrieval
 {
+    private static final int AUTHORIZATION_TOKEN_BEGIN_INDEX = 7;
+
     //region Retrieve token from http request
     /**
      * Retrieve token from Http request by reading the value the 'Authorization' of the request header
@@ -22,7 +24,9 @@ class JwtHttpRequestTokenRetrieval
         String bearerToken = request.getHeader(AUTHORIZATION_HEADER_KEY);
         if (bearerToken != null && bearerToken.startsWith(AUTHORIZATION_PREFIX))
         {
-            return bearerToken.substring(7);
+            try {
+                return bearerToken.substring(AUTHORIZATION_TOKEN_BEGIN_INDEX);
+            }catch (Exception ignored){}
         }
 
         return null;
