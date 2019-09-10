@@ -9,22 +9,39 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+/***
+ * <p>This is the initializer of the user table in the database.</p>
+ *
+ * @author Melchior Vrolijk
+ * @date 2019/9/10
+ */
 @Component
 public class InitializeUserTable implements ApplicationRunner
 {
+    //region Local variable
     private AuthenticatedUserRepository authenticatedUserRepository;
     private static final String ROOT_USER_PASSWORD = "5dcad19b31396b729a484bd84b39a0b268511ba11b9359d37051c5bd02a0db7f0dd96296165b63f73acb6f0146fc5cab1ac90f050c86085c0815a88cd103e2e0";
     private static final String ROOT_USER_NAME = "admin@application.com";
     private static final String ROOT_USER_FIRST_NAME = "Root";
     private static final String ROOT_USER_LAST_NAME = "User";
     private static final String ROOT_USER_OCCUPATION = "admin@application.com";
+    //endregion
 
+    //region Constructor
+    /**
+     * {@inheritDoc}
+     */
     @Autowired
     public InitializeUserTable(AuthenticatedUserRepository authenticatedUserRepository)
     {
         this.authenticatedUserRepository = authenticatedUserRepository;
     }
+    //endregion
 
+    //region ApplicationRunner run function
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void run(ApplicationArguments args) throws Exception
     {
@@ -44,4 +61,5 @@ public class InitializeUserTable implements ApplicationRunner
             authenticatedUserRepository.save(rootUser);
         }
     }
+    //endregion
 }

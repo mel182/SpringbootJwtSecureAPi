@@ -1,6 +1,5 @@
 package com.melchior.vrolijk.secure_api.Secure.Web.API.database.entity;
 
-import com.melchior.vrolijk.secure_api.Secure.Web.API.database.dbEnum.Category;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -9,6 +8,13 @@ import javax.persistence.*;
 @ApiModel
 @Entity
 @Table(name="USERS")
+/***
+ * <p>This is the user entity database model.</p>
+ * <p>Note: all properties are read-only when exposes to clients</p>
+ *
+ * @author Melchior Vrolijk
+ * @date 2019/4/8
+ */
 public class UserEntity
 {
     //region Model properties

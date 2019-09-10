@@ -18,6 +18,11 @@ import static com.melchior.vrolijk.secure_api.Secure.Web.API.security.constant.S
 import static com.melchior.vrolijk.secure_api.Secure.Web.API.security.constant.SecurityConstantValue.ONLY_USED_BY_ROOT_USER;
 import static com.melchior.vrolijk.secure_api.Secure.Web.API.security.constant.SecurityConstantValue.ROOT_AUTHORIZATION_REQUIRED;
 
+/**
+ * This is the admin controller that extends {@link BaseSecurityControllerVerifier}
+ *
+ * @author Melchior Vrolijk
+ */
 @Api(tags = "Admin", description = "Endpoints for manipulating registered admins data")
 @RestController
 @RequestMapping("/admin")

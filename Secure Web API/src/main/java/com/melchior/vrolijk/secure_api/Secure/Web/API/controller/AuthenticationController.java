@@ -15,6 +15,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * This is the authentication controller that extends {@link BaseSecurityControllerVerifier}
+ *
+ * @author Melchior Vrolijk
+ */
 @Api(tags = "Authentication", description = "Endpoints for authenticating")
 @RestController
 @RequestMapping("/auth")

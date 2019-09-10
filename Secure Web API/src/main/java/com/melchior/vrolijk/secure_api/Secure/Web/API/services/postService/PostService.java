@@ -8,30 +8,54 @@ import com.melchior.vrolijk.secure_api.Secure.Web.API.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * This is the post service which extends the {@link PostServiceTask}.
+ *
+ * @author Melchior Vrolijk
+ */
 @SuppressWarnings("ALL")
 @Service
 public class PostService implements PostServiceTask
 {
+    //region Local variable
+    /**
+     * Post repository autowired instance
+     */
     @Autowired
     private PostRepository postRepository;
+    //endregion
 
+    //region Set post repository
+    /**
+     * Set post respository
+     * @param postRepository The target post repository
+     */
     public void setPostRepository(PostRepository postRepository) {
         this.postRepository = postRepository;
     }
+    //endregion
 
+    //region Get list of All posts
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Post> allposts()
     {
         return Converter.convertToPostList(postRepository.findAll());
     }
+    //endregion
 
+    //region Get post based on post ID provided
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Post getPost(Long id) {
 
@@ -42,7 +66,12 @@ public class PostService implements PostServiceTask
         }
         return null;
     }
+    //endregion
 
+    //region Add new post
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Post addPost(Post post)
     {
@@ -56,7 +85,12 @@ public class PostService implements PostServiceTask
 
         return Converter.convertToPost(postRepository.save(postEntity));
     }
+    //endregion
 
+    //region Remove post
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Post removePost(Long id)
     {
@@ -70,7 +104,12 @@ public class PostService implements PostServiceTask
 
         return null;
     }
+    //endregion
 
+    //region Update post
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Post updatePost(Post post)
     {
@@ -92,7 +131,14 @@ public class PostService implements PostServiceTask
 
         return null;
     }
+    //endregion
 
+    //region Get all posts based on User ID provided
+    /**
+     * Get all user posts based on the user ID provided
+     * @param id The target user ID
+     * @return The list of posts
+     */
     public List<Post> getAllUserPosts(long id)
     {
         List<PostEntity> postEntities = postRepository.findAll();
@@ -103,6 +149,7 @@ public class PostService implements PostServiceTask
 
         return Converter.convertToPostList(correspondingUserPostEntities);
     }
+    //endregion
 
     //region Get user role of the raw JWT
     /**

@@ -11,6 +11,11 @@ import com.melchior.vrolijk.secure_api.Secure.Web.API.utilities.Hashing;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This is the general converter
+ *
+ * @author Melchior Vrolijk
+ */
 @SuppressWarnings("ALL")
 public class Converter
 {

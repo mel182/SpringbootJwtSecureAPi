@@ -16,6 +16,11 @@ import org.springframework.web.bind.annotation.*;
 import static com.melchior.vrolijk.secure_api.Secure.Web.API.security.constant.SecurityConstantValue.AUTHORIZATION_HEADER_KEY;
 import static com.melchior.vrolijk.secure_api.Secure.Web.API.security.constant.SecurityConstantValue.AUTHORIZATION_REQUIRED;
 
+/**
+ * This is the post controller that extends {@link BaseSecurityControllerVerifier}
+ *
+ * @author Melchior Vrolijk
+ */
 @SuppressWarnings("ALL")
 @Api(tags = "Posts", description = "Endpoint for manipulating available post items")
 @RequestMapping("/post")
